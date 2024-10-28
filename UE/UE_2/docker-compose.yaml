@@ -1,0 +1,26 @@
+# docker-compose up
+version: '3'
+services:
+    notesservice:
+        container_name: "NotesService"
+        build: .
+        ports:
+            - "8080:8080"
+        networks:
+            - webnet
+        environment:
+            - REDIS_HOST=Redis
+        depends_on:
+            - redis
+    redis:
+      container_name: "Redis"
+      image: "redis:latest"
+      command: redis-server --appendonly yes
+      volumes:
+          - redisVolume:/data
+      networks:
+          - webnet
+volumes:
+    redisVolume: 
+networks: 
+    webnet:

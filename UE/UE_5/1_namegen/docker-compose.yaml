@@ -1,0 +1,21 @@
+# docker-compose up
+version: '3'
+services:
+    namegen:
+        container_name: "Namegen"
+        build: ./backend/
+        ports:
+            - "5050:5000"
+        networks:
+            - webnet
+    website:
+      container_name: "website"
+      build: ./frontend/
+      ports:
+            - "3000:3000"
+      networks:
+          - webnet
+      depends_on:
+            - namegen
+networks: 
+    webnet:

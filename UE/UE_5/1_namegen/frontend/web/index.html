@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Name</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Hallo</h1>
+        <input type="text" name="name" />
+    </div>
+    
+</body>
+
+<script type="text/javascript">
+    window.onload = async () => {
+        const response = await fetch('http://127.0.0.1:3000/name');
+        const data = await response.text(); 
+        document.getElementsByName("name")[0].value = data;
+    };
+</script>
+
+</html>

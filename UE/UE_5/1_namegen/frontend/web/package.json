@@ -1,0 +1,16 @@
+{
+  "name": "nameweb",
+  "version": "1.0.0",
+  "description": "nameweb",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "cors": "^2.8.5"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "qITelFjbDDn/s6YyUQQ7KzZdDGbiZvnTSjVcgQACs995H9IGlVp3AIxNqByG4X2DlrDSidFeaB10PpFOyFtIsQ==",
+  "success": true,
+  "projectFilePath": "/Users/lukas/DSE/Semester_1/BGD2/UE/UE_5/1_namegen/backend/namegen/namegen.csproj",
+  "expectedPackageFiles": [
+    "/Users/lukas/.nuget/packages/microsoft.netcore.app.ref/3.0.0/microsoft.netcore.app.ref.3.0.0.nupkg.sha512",
+    "/Users/lukas/.nuget/packages/microsoft.aspnetcore.app.ref/3.0.1/microsoft.aspnetcore.app.ref.3.0.1.nupkg.sha512",
+    "/Users/lukas/.nuget/packages/microsoft.netcore.app.host.osx-x64/3.0.3/microsoft.netcore.app.host.osx-x64.3.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

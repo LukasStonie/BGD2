@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  webshop:
+    container_name: 'webshop'
+    build: .
+    ports:
+      - "5050:5000"
+    networks:
+      - webnet
+    environment:
+      - REDIS_HOST=Redis
+    depends_on:
+      - redis
+  
+  redis:
+    container_name: 'Redis'
+    image: 'redis:latest'  
+    command: redis-server --appendonly yes
+    networks:
+      - webnet
+    volumes:
+      - redisVolume:/data
+networks:
+  webnet:
+volumes:
+  redisVolume:

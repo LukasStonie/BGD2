@@ -5,7 +5,7 @@ services:
         container_name: "Namegen"
         build: ./backend/
         ports:
-            - "5050:5000"
+            - "5060:5000"
         networks:
             - webnet
     website:

@@ -244,3 +244,13 @@ which produces the following output:
   }
 ]
 ```
+
+# Adding friends
+```
+db.friend.insert(
+  {
+    email:"jakob@gmail.com", 
+    friend: "marie@gmail.com"
+  }
+)
+```

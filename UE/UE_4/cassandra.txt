@@ -1,0 +1,61 @@
+PK ... partition key
+CK ... cluster key
+
+wenn PK alleine verwendet wird, dann muss er UNQUE sein
+wenn PK und 
+
+--------------------------------- Übung 4 ---------------------------------
+
+#starten von cassandra image
+docker run --name cassandra cassandra:5
+
+#verbinden zu container
+docker exec -it cassandra /bin/bash
+
+# starten von cqlsh
+cqlsh
+
+CREATE KEYSPACE fileomat WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+
+USE fileomat;
+
+CREATE TABLE file (user text, hash text, name text, file blob, PRIMARY KEY(user, hash));
+
+SELECT * from file;
+
+INSERT INTO file (user, hash, name, file) VALUES ('lsteininger', '12345', 'test1.txt', textAsBlob('content'));
+	
+	# insert multiple ...
+
+SELECT * from file;
+
+SELECT * from file WHERE user = 'lsteininger';
+
+SELECT * from file WHERE name = 'test2.txt'; # nicht möglich, da kein index auf name
+
+
+
+CREATE INDEX ON file(name); # Erstellung von index auf file name, nicht ratsam
+
+SELECT * from file WHERE name = 'test2.txt';
+
+
+
+select * from file where hash = '12345'; # filtern nach clustering key alleine funktioniert auch nicht
+
+select * from file where user = 'lsteininger' and hash = '12345'; # filtern nach PK und CK funktioniert schon
+
+
+CREATE TABLE file_prio(user TEXT, priority INT, name TEXT, hash TEXT, PRIMARY KEY(user, priority)) WITH CLUSTERING ORDER BY (priority DESC);
+
+INSERT INTO file_prio (user, priority, name, hash) VALUES('lsteininger', 1, 'test1.txt', 'asdkhgfk');
+
+	# insert multiple
+
+
+SELECT * FROM file_prio;
+
+SELECT * FROM file_prio WHERE user = 'lfallmann' LIMIT 3; 
+
+
+CREATE TABLE tag (tag TEXT, name TEXT, hash TEXT, user TEXT, PRIMARY KEY((user, tag), hash));

@@ -164,11 +164,12 @@ SELECT * from subjects_details where subject_id = 'CO1';
 ### Docker Image
 To use MongoDB, we use a docker image which can be installed by the command `docker pull mongo:8`. We run the image by executing `docker run --name mongo mongo:8` and we connect to the running image (in a new terminal) by excuting `docker exec -it mongo /bin/bash`. 
 
-Once we are in the shell of the docker container we use `mongosh` to start the MongoDB shell. 
+Once we are in the shell of the docker container we use `mongosh` to start the MongoDB shell. With `use universiy` we change to a new database.
 
 ### Solutions
 
 #### Task 1
+
 Insert the data:
 ```
 db.student.insertOne(

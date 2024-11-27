@@ -1,0 +1,14 @@
+    1  mkdir -p teach/hgb/202{0..3}/{10..12}/{20..24}
+    2  echo "this is a logfile for 2020/10/24" > teach/hgb/2020/10/24/log.txt
+    3  echo "this is a logfile for 2021/12/22" > teach/hgb/2021/12/22/log.txt
+    4  hdfs dfs -put /teach /
+    5  hdfs dfs -ls /
+    6  hdfs dfs -ls -h /
+    7  hdfs dfs -ls /teach/hgb/2020/*/*/*.txt
+    8  hdfs dfs -ls /teach/hgb/202{0..1}/*/*/*.txt
+    9  hdfs dfs -ls /teach/hgb/*/*/{22,24}/*.txt
+   10  hdfs dfs -ls /teach/hgb/2020/10/
+   11  hdfs dfs chmod 700 teach
+   12  hdfs dfs -chmod -R 700 /teach
+   13  hdfs dfs -ls /
+   14  hdfs dfs -rm -R /teach

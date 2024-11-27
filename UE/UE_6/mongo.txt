@@ -1,0 +1,173 @@
+# start
+docker run --name mongo mongo:8 
+
+# step into container
+docker exec -it mongo /bin/bash
+
+# start mongo shell
+mongosh
+
+# insert of data
+
+	db.user.insertOne(
+		{
+		_id: "jakob@gmail.com", 
+		firstname: "Jakob", 
+		posts: [
+			{header:"Test", text:"this is a body text..."},
+			{header: "Test2", text:"this is another body text"}
+			]
+		}
+	);
+
+# query the user db
+db.user.find({});
+
+# mongo does not the check the data
+# we can insert a second user that is missing e.g., the _id and postings
+db.user.insertOne({firstname: "Marie"});
+
+# modify an entry
+	db.users.updateOne(
+		{
+			_id: "jakob@gmail.com"}, {$addToSet: {"posts": {header: "3rd posting", text:"sdljvhkehf"}}});
+
+_____________________________________________________________
+
+db.users.insertOne({_id: "jakob@gmail.com", fn: "Jakob"})
+{ acknowledged: true, insertedId: 'jakob@gmail.com' }
+test> db.users.insertOne({_id: "marie@gmail.com", fn: "Marie"})
+{ acknowledged: true, insertedId: 'marie@gmail.com' }
+test> db.users.drop();
+true
+test> db.user.insertOne({_id: "jakob@gmail.com", fn: "Jakob"})
+{ acknowledged: true, insertedId: 'jakob@gmail.com' }
+test> db.user.insertOne({_id: "marie@gmail.com", fn: "Marie"})
+{ acknowledged: true, insertedId: 'marie@gmail.com' }
+test> db.post.insertOne({header: "test",text:"ksdjfg", user: "jakob@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6731c591a844965df959139f')
+}
+test> db.post.insertOne({header: "test2",text:"kdfsjwhgrsdjfg", user: "jakob@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6731c5a6a844965df95913a0')
+}
+test> db.post.insertOne({header: "Shitty Cars",text:"Dacia Sandero", user: "marie@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6731c5b9a844965df95913a1')
+}
+test> db.post.find({})
+[
+  {
+    _id: ObjectId('6731c591a844965df959139f'),
+    header: 'test',
+    text: 'ksdjfg',
+    user: 'jakob@gmail.com'
+  },
+  {
+    _id: ObjectId('6731c5a6a844965df95913a0'),
+    header: 'test2',
+    text: 'kdfsjwhgrsdjfg',
+    user: 'jakob@gmail.com'
+  },
+  {
+    _id: ObjectId('6731c5b9a844965df95913a1'),
+    header: 'Shitty Cars',
+    text: 'Dacia Sandero',
+    user: 'marie@gmail.com'
+  }
+]
+test> db.like.insertOne({postId: ObjectId('6731c591a844965df959139f'), type:5, comment: "nice", user: "jakob@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6731c648a844965df95913a2')
+}
+test> db.like.insertOne({postId: ObjectId('6731c5a6a844965df95913a0'), type:2, comment: "perfect", user: "jakob@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6731c69ca844965df95913a3')
+}
+test> db.like.insertOne({postId: ObjectId('6731c5a6a844965df95913a0'), type:1, comment: "perfect <§", user: "marie@gmail.com"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('6731c6cfa844965df95913a4')
+}
+test> db.like.findOne({postId: ObjectId('6731c5a6a844965df95913a0')})
+{
+  _id: ObjectId('6731c69ca844965df95913a3'),
+  postId: ObjectId('6731c5a6a844965df95913a0'),
+  type: 2,
+  comment: 'perfect',
+  user: 'jakob@gmail.com'
+}
+test> db.post.aggregate({$lookup: {from: "like", localField: "_id", foreignField:"postId", as: "likes"}})
+[
+  {
+    _id: ObjectId('6731c591a844965df959139f'),
+    header: 'test',
+    text: 'ksdjfg',
+    user: 'jakob@gmail.com',
+    likes: [
+      {
+        _id: ObjectId('6731c648a844965df95913a2'),
+        postId: ObjectId('6731c591a844965df959139f'),
+        type: 5,
+        comment: 'nice',
+        user: 'jakob@gmail.com'
+      }
+    ]
+  },
+  {
+    _id: ObjectId('6731c5a6a844965df95913a0'),
+    header: 'test2',
+    text: 'kdfsjwhgrsdjfg',
+    user: 'jakob@gmail.com',
+    likes: [
+      {
+        _id: ObjectId('6731c69ca844965df95913a3'),
+        postId: ObjectId('6731c5a6a844965df95913a0'),
+        type: 2,
+        comment: 'perfect',
+        user: 'jakob@gmail.com'
+      },
+      {
+        _id: ObjectId('6731c6cfa844965df95913a4'),
+        postId: ObjectId('6731c5a6a844965df95913a0'),
+        type: 1,
+        comment: 'perfect <§',
+        user: 'marie@gmail.com'
+      }
+    ]
+  },
+  {
+    _id: ObjectId('6731c5b9a844965df95913a1'),
+    header: 'Shitty Cars',
+    text: 'Dacia Sandero',
+    user: 'marie@gmail.com',
+    likes: []
+  }
+]
+
+test> db.post.aggregate([{$match: {header: "test"}},{$lookup: {from: "like", localField: "_id", foreignField:"postId", as: "likes"}}])
+[
+  {
+    _id: ObjectId('6731c591a844965df959139f'),
+    header: 'test',
+    text: 'ksdjfg',
+    user: 'jakob@gmail.com',
+    likes: [
+      {
+        _id: ObjectId('6731c648a844965df95913a2'),
+        postId: ObjectId('6731c591a844965df959139f'),
+        type: 5,
+        comment: 'nice',
+        user: 'jakob@gmail.com'
+      }
+    ]
+  }
+]
+
+db.friend.insert({email:"jakob@gmail.com", friend: "marie@gmail.com"})

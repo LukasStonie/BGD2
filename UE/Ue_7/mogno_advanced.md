@@ -199,6 +199,12 @@ db.grade.aggregate(
         },
         {
             $match: {'student._id': {$eq: 'jakobPeter@uni.com'} }
+        },
+        {
+            $project: {
+                'student_id':0,
+                'subject_id':0
+            }
         }
     ]
 );

@@ -7,7 +7,8 @@ To use Cassandra, we use a docker image which can be installed by the command `d
 
 Once we are in the shell of the docker container we use `cqlsh` to start the Cassandra Query Language shell. Before we can get started, we create a keyspace:
 ```bash
-CREATE KEYSPACE university WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+CREATE KEYSPACE university WITH replication = 
+{'class': 'SimpleStrategy', 'replication_factor': 1};
 ```
 
 In order to use the keyspace we just created, we use the command:

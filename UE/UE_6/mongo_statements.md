@@ -109,7 +109,7 @@ db.like.insertOne(
     user: "jakob@gmail.com"
     }
   )
-```
+``` 
 
 ### Like 2
 ```
